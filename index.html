@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DEBESMSCAT Campus Market</title>
+    <meta
+      name="description"
+      content="DEBESMSCAT Campus Market - a seller-first college shopping platform with a clean marketplace experience."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"
+    />
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" type="image/png" href="files/images/logo.png"/>
+  </head>
+  <body>
+    <nav class="topbar" aria-label="Main navigation">
+      <div class="brand-wrap" data-page="home">
+        <div class="brand-logo">
+          <img src="files/images/logo.png" alt="DEBESMSCAT Logo" />
+        </div>
+        <div class="brand-copy">
+          <span class="brand-name">DEBESMSCAT</span>
+          <span class="brand-sub">Campus Market</span>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search campus products, sellers, and categories"
+          aria-label="Search products"
+        />
+      </div>
+
+      <div class="nav-actions">
+        <button class="icon-btn" data-page="notifications" aria-label="Notifications">
+          <i class="ti ti-bell"></i>
+          <span class="notif-dot">3</span>
+        </button>
+        <button class="icon-btn" data-page="cart" aria-label="Cart">
+          <i class="ti ti-shopping-cart"></i>
+          <span class="notif-dot cart">0</span>
+        </button>
+        <button class="profile-badge" data-page="profile" aria-label="Profile">JM</button>
+      </div>
+    </nav>
+
+    <div class="layout-shell">
+      <aside class="sidebar" aria-label="Sidebar navigation">
+        <div class="sidebar-group">
+          <p class="sidebar-label">Main</p>
+          <button class="side-link active" data-page="home">
+            <i class="ti ti-home-2"></i>
+            <span>Home</span>
+          </button>
+          <button class="side-link" data-page="browse">
+            <i class="ti ti-layout-grid"></i>
+            <span>Browse</span>
+          </button>
+          <button class="side-link" data-page="orders">
+            <i class="ti ti-package"></i>
+            <span>My Orders</span>
+            <span class="side-pill">0</span>
+          </button>
+          <button class="side-link" data-page="cart">
+            <i class="ti ti-shopping-cart"></i>
+            <span>Cart</span>
+            <span class="side-pill cart">0</span>
+          </button>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-group">
+          <p class="sidebar-label">Discover</p>
+          <button class="side-link" data-page="sellers">
+            <i class="ti ti-store"></i>
+            <span>Sellers</span>
+          </button>
+          <button class="side-link" data-page="reviews">
+            <i class="ti ti-star"></i>
+            <span>Reviews</span>
+          </button>
+          <button class="side-link" data-page="notifications">
+            <i class="ti ti-bell"></i>
+            <span>Notifications</span>
+            <span class="side-pill">3</span>
+          </button>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-group">
+          <button class="side-link" data-page="profile">
+            <i class="ti ti-user-circle"></i>
+            <span>My Profile</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="content-area">
+        <section class="page active" id="page-home">
+          <div class="hero-panel">
+            <div class="hero-copy">
+              <span class="eyebrow">Seller-first campus marketplace</span>
+              <h1>College shopping, built around every campus block.</h1>
+              <p>
+                DEBESMSCAT Campus Market brings student shops, local vendors, and
+                approved sellers into one digital storefront. Listings are intentionally
+                blank until the marketplace opens for official seller onboarding.
+              </p>
+              <div class="hero-actions">
+                <button class="btn btn-light" data-page="browse">Browse marketplace</button>
+                <button class="btn btn-outline" data-page="sellers">View sellers</button>
+              </div>
+
+              <div class="portal-actions">
+                <a href="seller-registration.html" class="portal-btn primary">Register as Seller</a>
+                <a href="seller-dashboard.html" class="portal-btn secondary">Open Seller Dashboard</a>
+              </div>
+            </div>
+
+            <div class="hero-visual" aria-hidden="true">
+              <div class="visual-card">
+                <div class="mini-tag">Platform status</div>
+                <div class="visual-circle">
+                  <span>Ready</span>
+                </div>
+                <div class="mini-row">
+                  <span>Seller approval</span>
+                  <strong>Open</strong>
+                </div>
+                <div class="mini-row">
+                  <span>Listings</span>
+                  <strong>0 live</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-icon green"><i class="ti ti-store"></i></div>
+              <div>
+                <p class="stat-label">Approved sellers</p>
+                <h3>0</h3>
+                <span>Waiting for onboarding</span>
+              </div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon brown"><i class="ti ti-package"></i></div>
+              <div>
+                <p class="stat-label">Live listings</p>
+                <h3>0</h3>
+                <span>Products available</span>
+              </div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon blue"><i class="ti ti-tag"></i></div>
+              <div>
+                <p class="stat-label">Campus categories</p>
+                <h3>6</h3>
+                <span>Ready for sellers</span>
+              </div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon gold"><i class="ti ti-truck"></i></div>
+              <div>
+                <p class="stat-label">Delivery zones</p>
+                <h3>4</h3>
+                <span>Campus routes planned</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="section-head">
+            <h2>Marketplace categories</h2>
+            <button class="text-link" data-page="browse">Browse all</button>
+          </div>
+
+          <div class="category-row">
+            <button class="category-pill active" data-category="all">All</button>
+            <button class="category-pill" data-category="food">Food &amp; Snacks</button>
+            <button class="category-pill" data-category="stationery">Stationery</button>
+            <button class="category-pill" data-category="fashion">Fashion</button>
+            <button class="category-pill" data-category="tech">Tech</button>
+            <button class="category-pill" data-category="services">Services</button>
+          </div>
+
+          <div class="section-head">
+            <h2>Seller tools</h2>
+            <span class="muted">Management access</span>
+          </div>
+
+          <div class="portal-grid">
+            <a href="seller-registration.html" class="portal-card">
+              <div class="portal-icon green"><i class="ti ti-user-plus"></i></div>
+              <h3>Seller registration</h3>
+              <p>Submit the campus store form and request approval.</p>
+            </a>
+            <a href="seller-dashboard.html" class="portal-card">
+              <div class="portal-icon brown"><i class="ti ti-layout-dashboard"></i></div>
+              <h3>Seller dashboard</h3>
+              <p>Manage product listings and track your store activity.</p>
+            </a>
+            <a href="admin.html" class="portal-card">
+              <div class="portal-icon blue"><i class="ti ti-shield-check"></i></div>
+              <h3>Admin approval</h3>
+              <p>Approve seller applications and monitor the marketplace.</p>
+            </a>
+          </div>
+
+          <div class="section-head">
+            <h2>Marketplace preview</h2>
+            <span class="muted">Seller content will appear here</span>
+          </div>
+
+          <div class="empty-grid">
+            <article class="empty-card">
+              <div class="empty-icon green"><i class="ti ti-clipboard-check"></i></div>
+              <h3>Seller onboarding</h3>
+              <p>Approved campus sellers will publish products when the platform is live.</p>
+            </article>
+            <article class="empty-card">
+              <div class="empty-icon brown"><i class="ti ti-package"></i></div>
+              <h3>Product listings</h3>
+              <p>Once uploaded, product cards and pricing will appear in this marketplace.</p>
+            </article>
+            <article class="empty-card">
+              <div class="empty-icon blue"><i class="ti ti-map-pin"></i></div>
+              <h3>Campus delivery</h3>
+              <p>Delivery zones and pickup points will be configured for each seller.</p>
+            </article>
+            <article class="empty-card">
+              <div class="empty-icon gold"><i class="ti ti-shield-check"></i></div>
+              <h3>Trust &amp; quality</h3>
+              <p>Reviews, seller ratings, and verification badges will appear later.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="page" id="page-browse">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Browse</span>
+              <h2>Campus listings</h2>
+            </div>
+            <p>There are no live listings yet. Sellers will populate the catalog after approval.</p>
+          </div>
+
+          <div class="toolbar">
+            <select aria-label="Sort listings">
+              <option>Sort by: Newest</option>
+              <option>Price: Low to high</option>
+              <option>Price: High to low</option>
+              <option>Top rated</option>
+            </select>
+            <select aria-label="Filter by category">
+              <option>All categories</option>
+              <option>Food &amp; Snacks</option>
+              <option>Stationery</option>
+              <option>Fashion</option>
+              <option>Tech</option>
+              <option>Services</option>
+            </select>
+            <select aria-label="Filter by seller">
+              <option>All sellers</option>
+              <option>Campus vendor</option>
+              <option>Student seller</option>
+              <option>Approved microshop</option>
+            </select>
+          </div>
+
+          <div class="empty-shell">
+            <div class="empty-shell-icon"><i class="ti ti-search"></i></div>
+            <h3>No listings published yet</h3>
+            <p>Once campus sellers upload their products, they will appear in this catalog automatically.</p>
+          </div>
+        </section>
+
+        <section class="page" id="page-sellers">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Sellers</span>
+              <h2>Campus vendors</h2>
+            </div>
+            <p>Seller profiles will be visible here once they are approved and activated.</p>
+          </div>
+
+          <div class="seller-grid">
+            <article class="seller-card placeholder">
+              <div class="seller-avatar">S</div>
+              <h3>Seller profile</h3>
+              <p>Brand name, rating, and store details will appear once onboarding is complete.</p>
+            </article>
+            <article class="seller-card placeholder">
+              <div class="seller-avatar">V</div>
+              <h3>Vendor directory</h3>
+              <p>This section lists approved sellers, categories, and campus service coverage.</p>
+            </article>
+            <article class="seller-card placeholder">
+              <div class="seller-avatar">B</div>
+              <h3>Business setup</h3>
+              <p>Store banners, contact information, and delivery settings will be managed here.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="page" id="page-orders">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Orders</span>
+              <h2>My orders</h2>
+            </div>
+            <p>No purchases have been made yet. When a customer places an order, it will be tracked here.</p>
+          </div>
+
+          <div class="empty-shell compact">
+            <div class="empty-shell-icon"><i class="ti ti-package"></i></div>
+            <h3>Your order history is empty</h3>
+            <p>Orders will appear once students start buying from approved campus sellers.</p>
+          </div>
+        </section>
+
+        <section class="page" id="page-cart">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Cart</span>
+              <h2>Shopping cart</h2>
+            </div>
+            <p>The cart is ready for future listings. Products will appear here when sellers add them.</p>
+          </div>
+
+          <div class="empty-shell compact">
+            <div class="empty-shell-icon"><i class="ti ti-shopping-cart"></i></div>
+            <h3>Your cart is empty</h3>
+            <p>Items added from live listings will be shown here with totals and checkout options.</p>
+          </div>
+        </section>
+
+        <section class="page" id="page-notifications">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Notifications</span>
+              <h2>Updates</h2>
+            </div>
+            <p>Alerts for approved sellers, new products, and order updates will appear here.</p>
+          </div>
+
+          <div class="notice-list">
+            <div class="notice-item">
+              <span class="notice-icon"><i class="ti ti-bell"></i></span>
+              <div>
+                <strong>Marketplace launch</strong>
+                <p>The system is ready for seller registration and product posting.</p>
+              </div>
+            </div>
+            <div class="notice-item">
+              <span class="notice-icon"><i class="ti ti-shield-check"></i></span>
+              <div>
+                <strong>Seller approval</strong>
+                <p>Pending sellers will receive updates when they are verified.</p>
+              </div>
+            </div>
+            <div class="notice-item">
+              <span class="notice-icon"><i class="ti ti-rocket"></i></span>
+              <div>
+                <strong>Product launch</strong>
+                <p>Listings and promotional campaigns will appear once sellers begin publishing.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-profile">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Profile</span>
+              <h2>Student account</h2>
+            </div>
+            <p>Buyer and seller profile controls will be available when the platform becomes active.</p>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-head">
+              <div class="profile-avatar">JM</div>
+              <div>
+                <h3>Jerome M.</h3>
+                <p>Student / Buyer</p>
+              </div>
+            </div>
+            <div class="profile-meta">
+              <div><span>Account role</span><strong>Student</strong></div>
+              <div><span>Campus</span><strong>DEBESMSCAT</strong></div>
+              <div><span>Status</span><strong>Awaiting seller activation</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-reviews">
+          <div class="page-header">
+            <div>
+              <span class="eyebrow">Reviews</span>
+              <h2>Customer feedback</h2>
+            </div>
+            <p>Reviews and star ratings will be displayed after sellers begin launching products.</p>
+          </div>
+
+          <div class="empty-shell compact">
+            <div class="empty-shell-icon"><i class="ti ti-star"></i></div>
+            <h3>No reviews yet</h3>
+            <p>Customer feedback will appear once transactions and ratings are enabled.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

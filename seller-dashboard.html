@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seller Dashboard | DEBESMSCAT Campus Market</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav class="topbar" aria-label="Main navigation">
+      <div class="brand-wrap" onclick="window.location.href='index.html'">
+        <div class="brand-logo">
+          <img src="files/images/logo.png" alt="DEBESMSCAT Logo" />
+        </div>
+        <div class="brand-copy">
+          <span class="brand-name">DEBESMSCAT</span>
+          <span class="brand-sub">Campus Market</span>
+        </div>
+      </div>
+
+      <div class="header-links">
+        <a href="index.html" class="header-link">Home</a>
+        <a href="seller-registration.html" class="header-link">Seller Registration</a>
+        <a href="seller-dashboard.html" class="header-link active">Seller Dashboard</a>
+        <a href="admin.html" class="header-link">Admin</a>
+      </div>
+    </nav>
+
+    <main class="page-shell">
+      <section class="page-panel hero-panel-dashboard">
+        <div>
+          <span class="eyebrow eyebrow-dark">Seller dashboard</span>
+          <h1>Manage your store</h1>
+          <p>Track listings, monitor orders, and keep your campus store active.</p>
+        </div>
+      </section>
+
+      <section class="stats-grid management-stats">
+        <article class="stat-card">
+          <div class="stat-icon green"><i class="ti ti-package"></i></div>
+          <div>
+            <p class="stat-label">Products</p>
+            <h3>0</h3>
+            <span>Listed items</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon brown"><i class="ti ti-shopping-cart"></i></div>
+          <div>
+            <p class="stat-label">Orders</p>
+            <h3>0</h3>
+            <span>Confirmed sales</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon blue"><i class="ti ti-star"></i></div>
+          <div>
+            <p class="stat-label">Rating</p>
+            <h3>4.9</h3>
+            <span>Customer score</span>
+          </div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon gold"><i class="ti ti-wallet"></i></div>
+          <div>
+            <p class="stat-label">Earnings</p>
+            <h3>₱0</h3>
+            <span>Monthly total</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="management-grid">
+        <div class="panel form-panel">
+          <div class="panel-head">
+            <h2>Add new product</h2>
+          </div>
+
+          <form id="productUploadForm" class="form-grid">
+            <label>
+              <span>Product name</span>
+              <input type="text" name="productName" placeholder="e.g. Chicken Rice Meal" required />
+            </label>
+            <label>
+              <span>Price</span>
+              <input type="number" name="price" placeholder="Php 45" min="1" required />
+            </label>
+            <label>
+              <span>Category</span>
+              <select name="productCategory" required>
+                <option value="">Select category</option>
+                <option value="Food & Snacks">Food &amp; Snacks</option>
+                <option value="Stationery">Stationery</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Tech">Tech</option>
+                <option value="Services">Services</option>
+              </select>
+            </label>
+            <label>
+              <span>Stock</span>
+              <input type="number" name="stock" placeholder="25" min="1" required />
+            </label>
+            <label class="full-width">
+              <span>Description</span>
+              <textarea name="productDescription" rows="4" placeholder="Write a clear product description for students." required></textarea>
+            </label>
+
+            <div class="form-actions full-width">
+              <button type="submit" class="btn btn-light btn-solid">Publish product</button>
+            </div>
+            <div id="productMessage" class="form-message" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <aside class="panel overview-panel">
+          <div class="panel-head">
+            <h2>Recent products</h2>
+          </div>
+          <div id="recentProducts" class="stack-list"></div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/management.js"></script>
+  </body>
+</html>

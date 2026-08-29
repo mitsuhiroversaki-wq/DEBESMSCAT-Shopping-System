@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | DEBESMSCAT Campus Market</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <nav class="topbar" aria-label="Main navigation">
+      <div class="brand-wrap" onclick="window.location.href='index.html'">
+        <div class="brand-logo">
+          <img src="files/images/logo.png" alt="DEBESMSCAT Logo" />
+        </div>
+        <div class="brand-copy">
+          <span class="brand-name">DEBESMSCAT</span>
+          <span class="brand-sub">Campus Market</span>
+        </div>
+      </div>
+
+      <div class="header-links">
+        <a href="index.html" class="header-link">Home</a>
+        <a href="seller-registration.html" class="header-link">Seller Registration</a>
+        <a href="seller-dashboard.html" class="header-link">Seller Dashboard</a>
+        <a href="admin.html" class="header-link active">Admin</a>
+      </div>
+    </nav>
+
+    <main class="page-shell">
+      <section class="page-panel hero-panel-dashboard">
+        <div>
+          <span class="eyebrow eyebrow-dark">Admin control</span>
+          <h1>Seller approval dashboard</h1>
+          <p>Review requests, approve sellers, and keep the marketplace controlled and trustworthy.</p>
+        </div>
+      </section>
+
+      <section class="management-grid admin-grid">
+        <div class="panel form-panel">
+          <div class="panel-head">
+            <h2>Seller review queue</h2>
+          </div>
+          <div id="adminQueue" class="stack-list"></div>
+        </div>
+
+        <aside class="panel overview-panel">
+          <div class="panel-head">
+            <h2>System status</h2>
+          </div>
+          <div class="status-list">
+            <div class="status-item">
+              <span class="status-badge green">Live</span>
+              <div>
+                <strong>Marketplace</strong>
+                <p>Open and ready for approved sellers.</p>
+              </div>
+            </div>
+            <div class="status-item">
+              <span class="status-badge amber">Pending</span>
+              <div>
+                <strong>Seller approvals</strong>
+                <p>Waiting for review and verification.</p>
+              </div>
+            </div>
+            <div class="status-item">
+              <span class="status-badge blue">Ready</span>
+              <div>
+                <strong>Product publishing</strong>
+                <p>Approved sellers can upload items.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/management.js"></script>
+  </body>
+</html>
