@@ -1,235 +1,149 @@
-const STORAGE_KEYS = {
-  sellers: 'debesmscat_sellers',
-  products: 'debesmscat_products',
-};
-
-const defaultSellers = [
-  {
-    id: 1,
-    fullName: 'Maria Santos',
-    email: 'maria@debesmscat.edu.ph',
-    phone: '09123456789',
-    storeName: 'MRS Corner',
-    category: 'Food & Snacks',
-    location: 'Main Gate',
-    description: 'Student snacks, bottled drinks, and breakfast meals.',
-    status: 'Pending',
-  },
-  {
-    id: 2,
-    fullName: 'Ryan Dela Cruz',
-    email: 'ryan@debesmscat.edu.ph',
-    phone: '09987654321',
-    storeName: 'RDC Stationery',
-    category: 'Stationery',
-    location: 'Student Center',
-    description: 'School supplies, notebooks, and student essentials.',
-    status: 'Approved',
-  },
-];
-
-const defaultProducts = [
-  {
-    id: 1,
-    productName: 'Chicken Rice Meal',
-    price: 45,
-    productCategory: 'Food & Snacks',
-    stock: 20,
-    productDescription: 'A classic campus meal with chicken, rice, and vegetables.',
-  },
-  {
-    id: 2,
-    productName: 'Notebook Set',
-    price: 120,
-    productCategory: 'Stationery',
-    stock: 15,
-    productDescription: 'Premium notebooks and writing materials for students.',
-  },
-];
-
-function readStorage(key, fallback) {
-  const raw = localStorage.getItem(key);
-  if (!raw) {
-    localStorage.setItem(key, JSON.stringify(fallback));
-    return fallback;
-  }
-
-  try {
-    return JSON.parse(raw);
-  } catch (error) {
-    localStorage.setItem(key, JSON.stringify(fallback));
-    return fallback;
-  }
-}
-
-function writeStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function renderPendingSellers() {
+async function renderPendingSellers() {
   const container = document.getElementById('pendingSellers');
   if (!container) return;
 
-  const sellers = readStorage(STORAGE_KEYS.sellers, defaultSellers);
-  const pending = sellers.filter((seller) => seller.status === 'Pending');
+  container.innerHTML = '<p class="loading">Loading sellers...</p>';
+  const response = await api.adminGetPendingSellers(1, 20);
 
-  if (!pending.length) {
-    container.innerHTML = '<div class="empty-state">No pending seller requests.</div>';
+  if (!response.success) {
+    container.innerHTML = '<div class="empty-state">Sign in as an admin to view pending sellers.</div>';
     return;
   }
 
-  container.innerHTML = pending
-    .map(
-      (seller) => `
+  const sellers = response.sellers || [];
+  container.innerHTML = sellers.length
+    ? sellers.map((seller) => `
         <div class="request-item">
           <div>
-            <strong>${seller.storeName}</strong>
-            <p>${seller.fullName} • ${seller.category}</p>
+            <strong>${seller.store_name}</strong>
+            <p>${seller.full_name} • ${seller.category}</p>
+            <p>${seller.email}</p>
           </div>
           <button class="mini-btn approve-btn" data-id="${seller.id}">Approve</button>
         </div>
-      `
-    )
-    .join('');
+      `).join('')
+    : '<div class="empty-state">No pending seller requests.</div>';
 
-  document.querySelectorAll('.approve-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      const sellersList = readStorage(STORAGE_KEYS.sellers, defaultSellers);
-      const targetId = Number(button.dataset.id);
-      const updated = sellersList.map((seller) =>
-        seller.id === targetId ? { ...seller, status: 'Approved' } : seller
-      );
-      writeStorage(STORAGE_KEYS.sellers, updated);
-      renderPendingSellers();
-      renderAdminQueue();
-    });
+  container.querySelectorAll('.approve-btn').forEach((button) => {
+    button.addEventListener('click', () => approveSeller(button.dataset.id, button));
   });
 }
 
-function renderAdminQueue() {
+async function renderAdminQueue() {
   const container = document.getElementById('adminQueue');
   if (!container) return;
 
-  const sellers = readStorage(STORAGE_KEYS.sellers, defaultSellers);
+  container.innerHTML = '<p class="loading">Loading queue...</p>';
+  const response = await api.adminGetAllSellers(1, 20);
 
-  if (!sellers.length) {
-    container.innerHTML = '<div class="empty-state">No seller requests available.</div>';
+  if (!response.success) {
+    container.innerHTML = '<div class="empty-state">Sign in as an admin to view the queue.</div>';
     return;
   }
 
-  container.innerHTML = sellers
-    .map(
-      (seller) => `
-        <div class="request-item admin-item">
-          <div>
-            <strong>${seller.storeName}</strong>
-            <p>${seller.fullName} • ${seller.category}</p>
-          </div>
-          <span class="status-tag ${seller.status === 'Approved' ? 'approved' : 'pending'}">${seller.status}</span>
+  const sellers = response.sellers || [];
+  container.innerHTML = sellers.length
+    ? sellers.map((seller) => `
+        <div class="request-item">
+          <div><strong>${seller.store_name}</strong><p>${seller.email}</p></div>
+          <span class="status-tag ${seller.status.toLowerCase()}">${seller.status}</span>
         </div>
-      `
-    )
-    .join('');
+      `).join('')
+    : '<div class="empty-state">No seller requests available.</div>';
 }
 
-function renderRecentProducts() {
+async function approveSeller(sellerId, button) {
+  button.disabled = true;
+  button.textContent = 'Approving...';
+  const response = await api.adminApproveSeller(sellerId);
+
+  if (!response.success) {
+    button.disabled = false;
+    button.textContent = 'Approve';
+    alert(response.message);
+    return;
+  }
+
+  await Promise.all([renderPendingSellers(), renderAdminQueue()]);
+}
+
+async function handleSellerSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = new FormData(form);
+  const submitButton = form.querySelector('button[type="submit"]');
+  const message = document.getElementById('formMessage');
+
+  submitButton.disabled = true;
+  const response = await api.registerSeller(
+    data.get('fullName').toString().trim(),
+    data.get('email').toString().trim(),
+    data.get('password').toString(),
+    data.get('phone').toString().trim(),
+    data.get('storeName').toString().trim(),
+    data.get('category').toString().trim(),
+    data.get('location').toString().trim(),
+    data.get('description').toString().trim()
+  );
+
+  submitButton.disabled = false;
+  message.textContent = response.success
+    ? 'Seller request submitted successfully. It is now pending approval.'
+    : response.message;
+  message.classList.toggle('success', response.success);
+  message.classList.toggle('error', !response.success);
+  if (response.success) form.reset();
+}
+
+async function renderRecentProducts() {
   const container = document.getElementById('recentProducts');
   if (!container) return;
 
-  const products = readStorage(STORAGE_KEYS.products, defaultProducts);
-
-  if (!products.length) {
-    container.innerHTML = '<div class="empty-state">No products published yet.</div>';
+  const response = await api.getProducts(1, 10);
+  if (!response.success) {
+    container.innerHTML = '<div class="empty-state">Unable to load products.</div>';
     return;
   }
 
-  container.innerHTML = products
-    .map(
-      (product) => `
+  const products = response.products || [];
+  container.innerHTML = products.length
+    ? products.map((product) => `
         <div class="request-item">
-          <div>
-            <strong>${product.productName}</strong>
-            <p>${product.productCategory} • ₱${product.price}</p>
-          </div>
+          <div><strong>${product.product_name}</strong><p>${product.category}</p></div>
           <span class="status-tag approved">${product.stock} in stock</span>
         </div>
-      `
-    )
-    .join('');
+      `).join('')
+    : '<div class="empty-state">No products published yet.</div>';
 }
 
-function handleSellerSubmit(event) {
+async function handleProductSubmit(event) {
   event.preventDefault();
-
   const form = event.currentTarget;
   const data = new FormData(form);
-  const seller = {
-    id: Date.now(),
-    fullName: data.get('fullName').toString().trim(),
-    email: data.get('email').toString().trim(),
-    phone: data.get('phone').toString().trim(),
-    storeName: data.get('storeName').toString().trim(),
-    category: data.get('category').toString().trim(),
-    location: data.get('location').toString().trim(),
-    description: data.get('description').toString().trim(),
-    status: 'Pending',
-  };
-
-  const sellers = readStorage(STORAGE_KEYS.sellers, defaultSellers);
-  sellers.unshift(seller);
-  writeStorage(STORAGE_KEYS.sellers, sellers);
-
-  form.reset();
-
-  const message = document.getElementById('formMessage');
-  if (message) {
-    message.textContent = 'Seller request submitted successfully. It is now pending approval.';
-  }
-
-  renderPendingSellers();
-  renderAdminQueue();
-}
-
-function handleProductSubmit(event) {
-  event.preventDefault();
-
-  const form = event.currentTarget;
-  const data = new FormData(form);
-  const product = {
-    id: Date.now(),
-    productName: data.get('productName').toString().trim(),
-    price: Number(data.get('price')),
-    productCategory: data.get('productCategory').toString().trim(),
-    stock: Number(data.get('stock')),
-    productDescription: data.get('productDescription').toString().trim(),
-  };
-
-  const products = readStorage(STORAGE_KEYS.products, defaultProducts);
-  products.unshift(product);
-  writeStorage(STORAGE_KEYS.products, products);
-
-  form.reset();
-
   const message = document.getElementById('productMessage');
-  if (message) {
-    message.textContent = 'Product published successfully and is now visible to buyers.';
-  }
+  const response = await api.createProduct(
+    data.get('productName').toString().trim(),
+    Number(data.get('price')),
+    Number(data.get('stock')),
+    data.get('productCategory').toString().trim(),
+    data.get('productDescription').toString().trim()
+  );
 
-  renderRecentProducts();
+  message.textContent = response.success ? 'Product published successfully.' : response.message;
+  message.classList.toggle('success', response.success);
+  message.classList.toggle('error', !response.success);
+  if (response.success) {
+    form.reset();
+    await renderRecentProducts();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderPendingSellers();
-  renderAdminQueue();
-  renderRecentProducts();
-
   const registrationForm = document.getElementById('sellerRegistrationForm');
-  if (registrationForm) {
-    registrationForm.addEventListener('submit', handleSellerSubmit);
-  }
-
+  if (registrationForm) registrationForm.addEventListener('submit', handleSellerSubmit);
   const productForm = document.getElementById('productUploadForm');
-  if (productForm) {
-    productForm.addEventListener('submit', handleProductSubmit);
-  }
+  if (productForm) productForm.addEventListener('submit', handleProductSubmit);
+  renderPendingSellers().catch(console.error);
+  renderAdminQueue().catch(console.error);
+  renderRecentProducts().catch(console.error);
 });

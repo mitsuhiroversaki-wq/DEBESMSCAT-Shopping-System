@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <!-- API Client -->
+    <script src="js/api.js"></script>
     <nav class="topbar" aria-label="Main navigation">
       <div class="brand-wrap" onclick="window.location.href='index.html'">
         <div class="brand-logo">
@@ -55,6 +57,10 @@
             <label>
               <span>Email address</span>
               <input type="email" name="email" placeholder="seller@debesmscat.edu.ph" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" minlength="8" autocomplete="new-password" required />
             </label>
             <label>
               <span>Phone number</span>

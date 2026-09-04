@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: debesmscat-shopping
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run migrate
+    startCommand: npm start
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase:
+          name: debesmscat-shopping-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: debesmscat-shopping-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: debesmscat-shopping-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: debesmscat-shopping-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: debesmscat-shopping-db
+          property: password
+
+databases:
+  - name: debesmscat-shopping-db
