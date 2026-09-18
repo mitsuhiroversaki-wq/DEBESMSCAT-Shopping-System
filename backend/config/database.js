@@ -9,6 +9,9 @@ const db = pgp({
   database: process.env.DB_NAME || 'debesmscat_shopping',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD,
+  ssl: process.env.NODE_ENV === 'production'
+    ? { rejectUnauthorized: false }
+    : false,
   max: 30, // Maximum pool size
 });
 
