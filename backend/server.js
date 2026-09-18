@@ -17,7 +17,7 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ limit: '10kb', extended: true }));
 
 // Serve the browser application from the same public origin as the API.
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '..', 'Shopping-System')));
 
 // ===== ROUTES =====
 app.use('/api/v1/auth', require('./routes/auth'));
@@ -37,7 +37,7 @@ app.get('/api/v1/health', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'Shopping-System', 'index.html'));
 });
 
 // ===== 404 HANDLER =====

@@ -19,7 +19,12 @@
       href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"
     />
 
+    <link rel="stylesheet" href="css/tokens.css" />
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
     <link rel="icon" type="image/png" href="files/images/logo.png"/>
   </head>
   <body>
@@ -285,6 +290,8 @@
             </select>
           </div>
 
+          <div class="products-grid" data-products aria-live="polite"></div>
+
           <div class="empty-shell">
             <div class="empty-shell-icon"><i class="ti ti-search"></i></div>
             <h3>No listings published yet</h3>
@@ -342,13 +349,50 @@
               <span class="eyebrow">Cart</span>
               <h2>Shopping cart</h2>
             </div>
-            <p>The cart is ready for future listings. Products will appear here when sellers add them.</p>
+            <p>Review your items, choose how to pay, and place your campus order.</p>
           </div>
 
-          <div class="empty-shell compact">
-            <div class="empty-shell-icon"><i class="ti ti-shopping-cart"></i></div>
-            <h3>Your cart is empty</h3>
-            <p>Items added from live listings will be shown here with totals and checkout options.</p>
+          <div class="cart-layout">
+            <div class="cart-panel">
+              <div id="cartItems" class="cart-items" aria-live="polite"></div>
+              <div id="cartEmpty" class="empty-shell compact">
+                <div class="empty-shell-icon"><i class="ti ti-shopping-cart"></i></div>
+                <h3>Your cart is empty</h3>
+                <p>Add a listing from the marketplace to begin checkout.</p>
+              </div>
+            </div>
+
+            <form id="checkoutForm" class="checkout-panel">
+              <div class="section-head">
+                <h2>Checkout</h2>
+                <span class="muted">Secure payment choice</span>
+              </div>
+
+              <label class="field-label" for="shippingAddressId">Shipping address ID</label>
+              <input id="shippingAddressId" name="shippingAddressId" type="number" min="1" required placeholder="Choose an address from your profile" />
+
+              <fieldset class="payment-options">
+                <legend>Payment method</legend>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="cod" checked />
+                  <span><strong>Cash on delivery</strong><small>Pay when your order arrives.</small></span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="account" />
+                  <span><strong>Saved account or e-wallet</strong><small>Use a connected campus account.</small></span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="online" />
+                  <span><strong>Card or online banking</strong><small>Continue to the payment provider.</small></span>
+                </label>
+              </fieldset>
+
+              <label class="field-label" for="orderNotes">Order notes <span>(optional)</span></label>
+              <textarea id="orderNotes" name="orderNotes" rows="3" placeholder="Pickup or delivery instructions"></textarea>
+              <div class="checkout-total"><span>Total</span><strong id="cartTotal">₱0.00</strong></div>
+              <button class="btn btn-primary checkout-button" type="submit">Place order</button>
+              <p id="checkoutMessage" class="form-message" role="status"></p>
+            </form>
           </div>
         </section>
 

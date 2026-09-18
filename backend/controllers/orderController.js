@@ -8,11 +8,11 @@ exports.getOrders = async (req, res, next) => {
     const userId = req.user.userId;
     const { status, page = 1, limit = 10 } = req.query;
 
-    let query = 'SELECT id, order_number, total_price, status, created_at FROM orders WHERE user_id = $1';
+    let query = 'SELECT id, order_number, total_price, order_status AS status, payment_method, payment_status, created_at FROM orders WHERE user_id = $1';
     const params = [userId];
 
     if (status) {
-      query += ` AND status = $${params.length + 1}`;
+      query += ` AND order_status = $${params.length + 1}`;
       params.push(status);
     }
 
@@ -73,7 +73,15 @@ exports.getOrderById = async (req, res, next) => {
 exports.createOrder = async (req, res, next) => {
   try {
     const userId = req.user.userId;
-    const { items, shippingAddressId, notes } = req.body;
+    const { items, shippingAddressId, notes, paymentMethod = 'cod' } = req.body;
+    const allowedPaymentMethods = ['cod', 'account', 'online'];
+
+    if (!allowedPaymentMethods.includes(paymentMethod)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Unsupported payment method',
+      });
+    }
 
     if (!items || !items.length) {
       return res.status(400).json({
@@ -100,10 +108,10 @@ exports.createOrder = async (req, res, next) => {
 
     // Create order
     const order = await db.one(
-      `INSERT INTO orders (user_id, shipping_address_id, total_price, status, notes, created_at)
-       VALUES ($1, $2, $3, 'Pending', $4, NOW())
-       RETURNING id, order_number, total_price, status`,
-      [userId, shippingAddressId, totalPrice, notes]
+      `INSERT INTO orders (order_number, user_id, shipping_address_id, total_price, payment_method, payment_status, order_status, notes, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, 'Pending', $7, NOW())
+       RETURNING id, order_number, total_price, payment_method, payment_status, order_status`,
+      [`DEB-${Date.now()}-${userId}`, userId, shippingAddressId, totalPrice, paymentMethod, paymentMethod === 'cod' ? 'Pending' : 'Awaiting payment', notes]
     );
 
     // Add order items
@@ -140,7 +148,7 @@ exports.cancelOrder = async (req, res, next) => {
     const { orderId } = req.params;
 
     const order = await db.oneOrNone(
-      'SELECT status FROM orders WHERE id = $1 AND user_id = $2',
+      'SELECT order_status FROM orders WHERE id = $1 AND user_id = $2',
       [orderId, userId]
     );
 
@@ -151,7 +159,7 @@ exports.cancelOrder = async (req, res, next) => {
       });
     }
 
-    if (!['Pending', 'Processing'].includes(order.status)) {
+    if (!['Pending', 'Processing'].includes(order.order_status)) {
       return res.status(400).json({
         success: false,
         message: 'Order cannot be cancelled in current status',
@@ -174,7 +182,7 @@ exports.cancelOrder = async (req, res, next) => {
 
     // Update order status
     await db.none(
-      'UPDATE orders SET status = $1, updated_at = NOW() WHERE id = $2',
+      'UPDATE orders SET order_status = $1, updated_at = NOW() WHERE id = $2',
       ['Cancelled', orderId]
     );
 
@@ -246,7 +254,7 @@ exports.confirmPayment = async (req, res, next) => {
 
     // Update order status
     await db.none(
-      'UPDATE orders SET status = $1, payment_status = $2, updated_at = NOW() WHERE id = $3',
+      'UPDATE orders SET order_status = $1, payment_status = $2, updated_at = NOW() WHERE id = $3',
       ['Processing', 'Paid', orderId]
     );
 

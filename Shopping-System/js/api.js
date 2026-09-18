@@ -292,11 +292,12 @@ class APIClient {
   /**
    * Create new order
    */
-  async createOrder(items, shippingAddressId, notes = '') {
+  async createOrder(items, shippingAddressId, notes = '', paymentMethod = 'cod') {
     return this.post('/orders', {
       items, // Array of { productId, quantity }
       shippingAddressId,
       notes,
+      paymentMethod,
     });
   }
 
@@ -477,9 +478,14 @@ class APIClient {
       options.body = JSON.stringify(data);
     }
 
+    const requestController = new AbortController();
+    const timeoutId = setTimeout(() => requestController.abort(), 10000);
+
     try {
+      options.signal = requestController.signal;
       const response = await fetch(url, options);
       const json = await response.json();
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(json.message || `HTTP ${response.status}`);
@@ -487,6 +493,7 @@ class APIClient {
 
       return json;
     } catch (error) {
+      clearTimeout(timeoutId);
       console.error(`API Error [${method} ${endpoint}]:`, error.message);
       return {
         success: false,

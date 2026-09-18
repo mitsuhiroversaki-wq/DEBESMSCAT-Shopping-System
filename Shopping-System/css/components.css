@@ -1,0 +1,42 @@
+.stat-card,
+.portal-card,
+.product-card,
+.seller-card,
+.notice-item,
+.cart-panel,
+.checkout-panel {
+  transition: transform var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out), border-color var(--motion-base) ease;
+}
+
+.stat-card:hover,
+.portal-card:hover,
+.product-card:hover,
+.seller-card:hover,
+.notice-item:hover,
+.cart-panel:hover,
+.checkout-panel:hover {
+  border-color: rgba(42, 122, 79, 0.24);
+  box-shadow: var(--shadow-lifted);
+  transform: translateY(-3px);
+}
+
+.payment-option:has(input:checked) {
+  border-color: var(--green-600);
+  background: var(--green-100);
+  box-shadow: inset 3px 0 0 var(--green-600);
+}
+
+.payment-option input:focus-visible,
+.quantity-button:focus-visible,
+.remove-cart-button:focus-visible,
+.btn:focus-visible,
+.category-pill:focus-visible {
+  outline: 3px solid rgba(170, 111, 65, 0.45);
+  outline-offset: 3px;
+}
+
+.btn-add-cart:disabled,
+.checkout-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}

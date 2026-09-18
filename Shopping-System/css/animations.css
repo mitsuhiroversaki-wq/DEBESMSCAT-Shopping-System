@@ -1,0 +1,76 @@
+@keyframes pageReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.page.active {
+  animation: pageReveal var(--motion-slow) var(--ease-out) both;
+}
+
+.hero-visual {
+  animation: gentleFloat 5s ease-in-out infinite;
+}
+
+.stat-card,
+.portal-card,
+.product-card,
+.seller-card,
+.notice-item {
+  animation: cardReveal var(--motion-slow) var(--ease-out) both;
+}
+
+.stat-card:nth-child(2),
+.portal-card:nth-child(2),
+.product-card:nth-child(2),
+.seller-card:nth-child(2) {
+  animation-delay: 50ms;
+}
+
+.stat-card:nth-child(3),
+.portal-card:nth-child(3),
+.product-card:nth-child(3),
+.seller-card:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+.stat-card:nth-child(4),
+.product-card:nth-child(4) {
+  animation-delay: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
